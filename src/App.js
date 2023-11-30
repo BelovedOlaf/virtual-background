@@ -1,23 +1,28 @@
-import logo from './logo.svg';
+import { useEffect, useRef } from 'react';
 import './App.css';
 
 function App() {
+
+  const inputVideoRef = useRef();
+  const canvasRef = useRef();
+  const contextRef = useRef();
+
+  useEffect(() => {
+    const constraints = {
+      video: { width: { min: 1280 }, height: { min: 720 } },
+    };
+
+    // console.log("navigator.mediaDevices", navigator.mediaDevices.getUserMedia(constraints));
+
+    navigator.mediaDevices.getUserMedia(constraints)
+      .then((stream) => {
+        console.log(stream);
+      });
+  }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <video autoPlay ref={inputVideoRef} />
+      <canvas ref={canvasRef} width={1280} height={720} />
     </div>
   );
 }
